@@ -10,9 +10,12 @@ const NavBar = () => {
     const [arr,setArr] = useState([]);
 
     let {id,name,email,age,doj,gender} = obj;
+    const [experiences,setExperiences] = useState([{company:"",role:"",years:"",stDate:"",enDate:""}]);
 
-    const [experiences,setExperObj] = useState({company:"",role:"",years:"",stDate:"",enDate:""})
-
+    function addBoxes(){
+        setExperiences([...experiences,{company:"",role:"",years:"",stDate:"",enDate:""}]);
+    }
+    
     function saveData(){
         (id===""|| name===""|| email===""|| age===""|| doj===""|| gender==="") ? alert("please enter all fields"): filteredData() ;
         setObj({id:"",name:"",email:"",age:"",doj:"",gender:""})
@@ -51,7 +54,7 @@ const NavBar = () => {
                 {display === "experience" &&  (
                     <div className="container">
                         <h2>Previous Company Details</h2>
-                        <AddIcon style={{float:"right",marginRight:"20px",fontSize:"32px"}}/><br/><br/>
+                        <AddIcon onclick={addBoxes} style={{float:"right",marginRight:"20px",fontSize:"32px"}}/><br/><br/>
                             <form className="experContainer">
                                 <div><label>Company: <input type="text" value={experiences.company} onChange={(e) => setExperObj({ ...experiences, company: e.target.value })} placeholder="enter company name" /></label></div> 
                                 <div><label>Role: <input type="text" value={experiences.role} onChange={(e) => setExperObj({ ...experiences, role: e.target.value })} placeholder="enter role" /></label></div>
