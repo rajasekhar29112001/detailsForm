@@ -5,84 +5,85 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const NavBar = () => {
-
     const [display, setDisplay] = useState("details");
     const [arr, setArr] = useState([]);
-    const [obj, setObj] = useState({ id: "", name: "", email: "", age: "", doj: "", gender: "", experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }] });
+    const [obj, setObj] = useState({ id: "",  name: "",  email: "",  age: "", doj: "", gender: "",  totalExperience: 0, experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }]});
+
     const [indexVal, setIndexVal] = useState(null);
     const [bool, setBool] = useState(false);
-    console.log("indexVal = ",indexVal)
-    
-    const { id, name, email, age, doj, gender, experience: [{ company, role, years, stDate, enDate }] } = obj;
 
     const [searchObj, setSearchObj] = useState({ id: "", name: "", email: "", age: "", doj: "", gender: "", totalExperience: "" });
-    const [filArr,setFilArr] = useState([]);
+    const [filArr, setFilArr] = useState([]);
 
     function addExperience() {
-        setObj({ ...obj, experience: [...obj.experience, { company: "", role: "", years: "", stDate: "", enDate: "" }] });
+        setObj({...obj, experience: [...obj.experience, { company: "", role: "", years: "", stDate: "", enDate: "" }]});
+    }
+    console.log("Obj = ",obj)
+
+    function deleteExperience(index){
+        let newObj = [...obj.experience]; 
     }
 
     function searching(key, e) {
         let value = e.target.value;
-        setSearchObj({ ...searchObj, [key]: value })
-        filteredData({ ...searchObj, [key]: value })
-        console.log("Search = ", searchObj);
+        let updatedSearchObj = { ...searchObj, [key]: value };
+        setSearchObj(updatedSearchObj);
+        filteredData(updatedSearchObj);
     }
 
     function filteredData(data) {
-        console.log('Data = ',data);
         const filterData = arr.filter(item => 
             item.id.includes(data.id) &&
             item.name.toLowerCase().includes(data.name.toLowerCase()) &&
             item.email.toLowerCase().includes(data.email.toLowerCase()) &&
             item.age.includes(data.age) &&
-            item.doj.toLowerCase().includes(data.doj) &&
+            item.doj.includes(data.doj) &&
             item.gender.toLowerCase().includes(data.gender.toLowerCase()) &&
-            item.totalExperience.includes(data.totalExperience)
+            item.totalExperience.toString().includes(data.totalExperience)
         ); 
-
-        setFilArr(filterData)
+        console.log("filterData = ",filterData)
+        setFilArr(filterData);
     }
 
     function experienceObj(index, field, value) {
-        const updateObj = obj.experience.map((exp, i) => i === index ? { ...exp, [field]: value } : exp);
-        console.log("updateObj =", updateObj);
-        setObj({ ...obj, experience: updateObj });
+        // setObj(obj => {
+        //     const updatedExperience = obj.experience.map((exp, i) =>
+        //         i === index ? { ...exp, [field]: value } : exp
+        //     );
+        //     return { ...obj, experience: updatedExperience };
+        // });
+
+        // sumOfYears();
+
+        const updatedExperience = [...obj.experience]
+        updatedExperience[index][field] = value
+        setObj({...obj, experience : updatedExperience})
         sumOfYears();
     }
 
-    function sumOfYears(){
-        let sum = obj.experience.reduce((total,iVal) => {
-            return total + Number(iVal.years);
-        },0);
-        console.log("Sum = ",sum);
-        setObj({...obj,totalExperience:sum})
+    function sumOfYears() {
+        let sum = obj.experience.reduce((total, iVal) => total + Number(iVal.years), 0);
+        setObj(obj => ({ ...obj, totalExperience: sum }));
     }
 
     function saveData() {
-
-        (obj.id === "" || obj.name === "" || obj.email === "" || obj.age === "" || obj.doj === "" || obj.gender === "" || obj.experience.years === "") ? alert("Please enter all fields") : filterDupData();
-       
-        setObj({ id: "", name: "", email: "", age: "", doj: "", gender: "", experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }] });
+        (!obj.id || !obj.name || !obj.email || !obj.age || !obj.doj || !obj.gender) ? alert("Please enter all fields") : filterDupData();
     }
-    console.log("Arr = ", arr)
 
     function filterDupData() {
-        let newData = arr.some((e) => e.id === id);
-        console.log("filterDupData", id)
-        if (!newData) {
+        if (arr.some(e => e.id === obj.id)) {
+            alert("This ID is already recorded.");
+        }else{
             let updateData = [...arr, obj];
+            console.log("updateData = ",updateData)
             setArr(updateData);
-            setFilArr(updateData)
-        } else {
-            alert("This id data already recorded.")
+            setFilArr(updateData);
         }
+        setObj({id: "", name: "",email: "", age: "", doj: "",gender: "", totalExperience: 0, experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }]});
     }
 
     function deleteData(ind) {
-        console.log("delete index = ", ind)
-        let newArr = [...arr];
-        let updateArr = newArr.filter((item, i) => i !== ind);
+        let updateArr = arr.filter((item, i) => i !== ind);
         setArr(updateArr);
         setFilArr(updateArr);
     }
@@ -94,12 +95,13 @@ const NavBar = () => {
         setDisplay("details");
     }
 
-    function updateData(indexVal) {
-        arr[indexVal] = { id, name, email, age, doj, gender, experience: [{ company, role, years, stDate, enDate }] };
-        setArr(arr);
-        setFilArr(arr)
+    function updateData() {
+        let updatedArr = [...arr];
+        updatedArr[indexVal] = obj;
+        setArr(updatedArr);
+        setFilArr(updatedArr);
         setBool(false);
-        setObj({ id: "", name: "", email: "", age: "", doj: "", gender: "", experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }] });
+        setObj({id: "", name: "",email: "", age: "", doj: "",gender: "", totalExperience: 0, experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }]});
     }
 
     return (
@@ -113,9 +115,9 @@ const NavBar = () => {
                 <div className="container">
                     <h2>Personal Details</h2>
                     <form>
-                        <label>Id: <input type="number" value={obj.id} onChange={(e) => setObj({ ...obj, id: e.target.value })} placeholder="Enter ID" required /></label>
+                        <label>Id: <input type="number" value={obj.id} onChange={(e) => setObj({ ...obj, id: e.target.value })} placeholder="Enter Id" required /></label>
                         <label>Name: <input type="text" value={obj.name} onChange={(e) => setObj({ ...obj, name: e.target.value })} placeholder="Enter Name" required /></label>
-                        <label>Email: <input type="email" value={obj.email} onChange={(e) => setObj({ ...obj, email: e.target.value })} placeholder="Enter Email" required /></label>
+                        <label>Email: <input type="email" value={obj.email} onChange={(e) => setObj({ ...obj, email: e.target.value })} placeholder="Enter Email"  /></label>
                         <label>Age: <input type="number" value={obj.age} onChange={(e) => setObj({ ...obj, age: e.target.value })} placeholder="Enter Age" required /></label>
                         <label>Date of Joining: <input type="date" value={obj.doj} onChange={(e) => setObj({ ...obj, doj: e.target.value })} required /></label>
                         <label>Gender:
@@ -132,15 +134,15 @@ const NavBar = () => {
             {display === "experience" && (
                 <div className="container">
                     <h2>Previous Company Details</h2>
-                    <AddIcon onClick={addExperience} style={{ float: "right", marginRight: "20px", fontSize: "32px", cursor: "pointer" }} />
-                    <br />
+                    <AddIcon onClick={addExperience} style={{ float: "right", marginRight: "20px", fontSize: "32px", cursor: "pointer" }} /><br/><br/>
                     {obj.experience.map((exp, index) => (
                         <form key={index} className="experContainer">
-                            <div><label>Company: <input type="text" value={exp.company} onChange={(e) => experienceObj(index, "company", e.target.value)} placeholder="Enter Company Name" /></label></div>
-                            <div><label>Role: <input type="text" value={exp.role} onChange={(e) => experienceObj(index, "role", e.target.value)} placeholder="Enter Role" /></label></div>
-                            <div><label>Years: <input type="number" value={exp.years} onChange={(e) => experienceObj(index, "years", e.target.value)} placeholder="Enter years" /></label></div>
-                            <div><label>Start Date: <input type="date" value={exp.stDate} onChange={(e) => experienceObj(index, "stDate", e.target.value)} placeholder="Enter Start Date" /></label></div>
-                            <div><label>End Date: <input type="date" value={exp.enDate} onChange={(e) => experienceObj(index, "enDate", e.target.value)} placeholder="Enter End Date" /></label></div>
+                            <div><label>Company: <input type="text" value={exp.company} onChange={(e) => experienceObj(index, "company", e.target.value)} placeholder="Enter company"/></label></div>
+                            <div><label>Role: <input type="text" value={exp.role} onChange={(e) => experienceObj(index, "role", e.target.value)} placeholder="Enter role"/></label></div>
+                            <div><DeleteIcon onClick={deleteExperience({index})} style={{marginLeft:"230%",marginTop:"10px"}}/></div>
+                            <div><label>Years: <input type="number" value={exp.years} onChange={(e) => experienceObj(index, "years", e.target.value)} placeholder="Enter years"/></label></div>
+                            <div><label>Start Date: <input type="date" value={exp.stDate} onChange={(e) => experienceObj(index, "stDate", e.target.value)} /></label></div>
+                            <div><label>End Date: <input type="date" value={exp.enDate} onChange={(e) => experienceObj(index, "enDate", e.target.value)} /></label></div>
                         </form>
                     ))}
                 </div>
@@ -164,8 +166,8 @@ const NavBar = () => {
                             <th>DoJ</th>
                             <th>Gender</th>
                             <th>Experience</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Changes</th>
+                            <th>Remove</th>
                         </tr>
                         <tr style={{ padding: "5px" }}>
                             <th><AccountCircleIcon /></th>
