@@ -9,12 +9,12 @@ const NavBar = () => {
     const [arr, setArr] = useState([]);
     const [obj, setObj] = useState({ id: "", name: "", email: "", age: "", doj: "", gender: "", totalExperience: 0, experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }] });
 
-    const [indexVal, setIndexVal] = useState();
+    const [indexVal, setIndexVal] = useState(null);
     const [bool, setBool] = useState(false);
 
     const [searchObj, setSearchObj] = useState({ id: "", name: "", email: "", age: "", doj: "", gender: "", totalExperience: "" });
     const [filArr, setFilArr] = useState([]);
-
+    
     function addExperience() {
         setObj({ ...obj, experience: [...obj.experience, { company: "", role: "", years: "", stDate: "", enDate: "" }] });
     }
@@ -50,7 +50,7 @@ const NavBar = () => {
         setBool(false);
         setObj({ id: "", name: "", email: "", age: "", doj: "", gender: "", totalExperience: 0, experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }] });
     }
-    
+
     function deleteData(ind) {
         let updateArr = arr.filter((item, i) => i !== ind);
         setArr(updateArr);
@@ -65,24 +65,10 @@ const NavBar = () => {
     }
 
     function experienceObj(index, field, value) {
-        // setObj(obj => {
-        //     const updatedExperience = obj.experience.map((exp, i) =>
-        //         i === index ? { ...exp, [field]: value } : exp
-        //     );
-        //     return { ...obj, experience: updatedExperience };
-        // });
-
-        // sumOfYears();
-
         const updatedExperience = [...obj.experience]
         updatedExperience[index][field] = value
         setObj({ ...obj, experience: updatedExperience })
-        sumOfYears();
-    }
-
-    function sumOfYears() {
-        let sum = obj.experience.reduce((total, iVal) => total + Number(iVal.years), 0);
-        setObj(obj => ({ ...obj, totalExperience: sum }));
+        sumOfYears({ ...obj, experience: updatedExperience });
     }
 
     function filteredData(data) {
@@ -102,9 +88,15 @@ const NavBar = () => {
     function deleteExperi(index) {
         const updateExper = obj.experience.filter((item, i) => i !== index);
         setObj({ ...obj, experience: updateExper });
-        sumOfYears();
+        sumOfYears({ ...obj, experience: updateExper });
     }
-   
+    console.log("obj",obj)
+
+    function sumOfYears(data) {
+        let sum = data.experience.reduce((total, iVal) => total + Number(iVal.years), 0);
+        setObj({ ...data, totalExperience: sum });
+    }
+
     return (
         <>
 
@@ -113,7 +105,7 @@ const NavBar = () => {
                     <button className={display === 'details' ? 'toggel_btn toggel_btn_active' : 'toggel_btn'} onClick={() => setDisplay("details")}>Details</button>
                     <button className={display === 'experience' ? 'toggel_btn toggel_btn_active' : 'toggel_btn'} onClick={() => setDisplay("experience")}>Experience</button>
                 </div>
-                
+
                 <button className="save_btn" type="button" onClick={!bool ? saveData : updateData}>{!bool ? 'Save' : 'Update'}</button>
             </nav>
 
@@ -125,13 +117,13 @@ const NavBar = () => {
                         <input type="text" value={obj.name} onChange={(e) => setObj({ ...obj, name: e.target.value })} placeholder=" Name" required />
                         <input type="email" value={obj.email} onChange={(e) => setObj({ ...obj, email: e.target.value })} placeholder=" Email" />
                         <input type="number" value={obj.age} onChange={(e) => setObj({ ...obj, age: e.target.value })} placeholder=" Age" required />
-                        <input type="type" onFocus={(e) => (e.target.type = "date")} onBlur={(e) => (e.target.type = "text")} value={obj.doj} onChange={(e) => setObj({ ...obj, doj: e.target.value })} placeholder=" Date of Joining" />
+                        <input type="text" onFocus={(e) => (e.target.type = "date")} onBlur={(e) => (e.target.type = "text")} value={obj.doj} onChange={(e) => setObj({ ...obj, doj: e.target.value })} placeholder=" Date of Joining" />
+                        {/* <input type="date" onFocus={(e) => (e.target.type = "date")} onBlur={(e) => (e.target.type = "text")} value={obj.doj} onChange={(e) => setObj({ ...obj, doj: e.target.value })} placeholder=" Date of Joining" /> */}
                         <select value={obj.gender} onChange={(e) => setObj({ ...obj, gender: e.target.value })} required>
                             <option value="" disabled style={{ color: "black" }}>Select Gender</option>
                             <option style={{ color: "black" }} value="male">Male</option>
                             <option style={{ color: "black" }} value="female">Female</option>
                         </select>
-
                     </form>
                 </div>
             )}
@@ -140,17 +132,17 @@ const NavBar = () => {
                 <div className="prevContainer">
                     <div className="heading_bar">
                         <span className="spanPre">Previous Company Details</span>
-                        <span><AddIcon onClick={addExperience} style={{ fontSize: "30px", cursor: "pointer", marginLeft: "3px", verticalAlign: "top" }} /></span>
+                        <span style={{verticalAlign:"middle"}}><AddIcon onClick={addExperience} style={{ fontSize: "30px", cursor: "pointer", marginLeft: "3px" }} /></span>
                     </div>
-                    
+
                     <div className="expDiv">
                         {obj.experience.map((exp, index) => {
                             const { company, role, years, stDate, enDate } = exp;
                             return (
                                 <>
-                                    { index === 0 ? null : <div className="line"></div>}
+                                    {index === 0 ? null : <div className="hr_line"></div>}
                                     <form key={index} className="experContainer">
-                                        <DeleteIcon onClick={() => deleteExperi(index)} style={{ marginLeft: "267px", fontSize: "25px"}} />
+                                        <DeleteIcon onClick={() => deleteExperi(index)} style={{ marginLeft: "267px", fontSize: "25px" }} />
                                         <input type="text" value={company} onChange={(e) => experienceObj(index, "company", e.target.value)} placeholder="Company" />
                                         <input type="text" value={role} onChange={(e) => experienceObj(index, "role", e.target.value)} placeholder="Role" />
                                         <input type="number" value={years} onChange={(e) => experienceObj(index, "years", e.target.value)} placeholder="Years" />
@@ -158,7 +150,7 @@ const NavBar = () => {
                                         <input type="text" value={enDate} onFocus={(e) => (e.target.type = "date")} onBlur={(e) => (e.target.type = "text")} onChange={(e) => experienceObj(index, "enDate", e.target.value)} placeholder="End Date" />
                                     </form>
                                 </>
-                            )    
+                            )
                         })}
                     </div>
 
@@ -174,9 +166,9 @@ const NavBar = () => {
                             <th>Name</th>
                             <th>Email</th>
                             <th>Age</th>
-                            <th>DoJ</th>
+                            <th>Date of Joining</th>
                             <th>Gender</th>
-                            <th>Experience</th>
+                            <th>Total Experience</th>
                             <th>Changes</th>
                             <th>Remove</th>
                         </tr>
@@ -189,8 +181,8 @@ const NavBar = () => {
                             <th><input value={searchObj.doj} onChange={(e) => searching("doj", e)} /></th>
                             <th><input value={searchObj.gender} onChange={(e) => searching("gender", e)} /></th>
                             <th><input value={searchObj.totalExperience} onChange={(e) => searching("totalExperience", e)} /></th>
-                            <th style={{textAlign:"center"}}><EditIcon /></th>
-                            <th style={{textAlign:"center"}}><DeleteIcon /></th>
+                            <th style={{ textAlign: "center" }}><EditIcon /></th>
+                            <th style={{ textAlign: "center" }}><DeleteIcon /></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -208,7 +200,7 @@ const NavBar = () => {
                                     <td><button onClick={() => editData(i)}>Edit</button></td>
                                     <td><button onClick={() => deleteData(i)}>Delete</button></td>
                                 </tr>
-                            )) : <tr><td colSpan={10} style={{textAlign:"center"}}>No Data</td></tr>}
+                            )) : <tr><td colSpan={10} style={{ textAlign: "center" }}>No Data</td></tr>}
                     </tbody>
                 </table>
             </div>

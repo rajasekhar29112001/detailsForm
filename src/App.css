@@ -69,7 +69,8 @@ h2{
   
 .container input, .container select {
     outline: none;
-    color:rgb(70, 65, 65);
+    /* color:rgb(70, 65, 65); */
+    color:black;
     padding:12px;
     border-radius: 6px;
     border: 1px solid grey;
@@ -99,14 +100,14 @@ h2{
     /* margin:5px; */
 }
 
-.expDiv{
-    display: flex;
-}
-
 .spanPre{
     color:royalblue;
     font-size: 22px;
     font-weight: bold;
+}
+
+.expDiv{
+    display: flex;
 }
 
 .prevContainer form{
@@ -116,7 +117,7 @@ h2{
 
 .prevContainer input{
     outline: none;
-    color:rgb(20, 16, 16);
+    color: black;
     padding: 10px;
     border-radius: 6px;
     border: 1px solid grey;
@@ -180,7 +181,7 @@ h2{
     background-color: #ffffff;
 }
 
-.line {
+.hr_line {
     border-left: 2px solid grey;
     height: 220px;
     margin-left: 15px;
