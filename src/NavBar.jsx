@@ -3,8 +3,8 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowDropUpSharpIcon from '@mui/icons-material/ArrowDropUpSharp';
+import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
 import ClearIcon from '@mui/icons-material/Clear';
 
 const NavBar = () => {
@@ -534,13 +534,13 @@ const NavBar = () => {
                     <thead>
                         <tr>
                             <th>S.No</th>
-                            <th>Id<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("id","ASC")}/><ArrowDownwardIcon onClick={() => sorting("id","DSC")}/><ClearIcon onClick={() => sorting("id","noraml")}/></span></th>
-                            <th>Name<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("name","ASC")}/><ArrowDownwardIcon onClick={() => sorting("name","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>Email<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("email","ASC")}/><ArrowDownwardIcon onClick={() => sorting("email","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>Age<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("age","ASC")}/><ArrowDownwardIcon onClick={() => sorting("age","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>DOJ<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("doj","ASC")}/><ArrowDownwardIcon onClick={() => sorting("doj","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>Gender<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("gender","ASC")}/><ArrowDownwardIcon onClick={() => sorting("gender","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>Experience<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("totalExperience","ASC")}/><ArrowDownwardIcon onClick={() => sorting("totalExperience","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Id<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("id","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("id","DSC")}/><ClearIcon onClick={() => sorting("id","noraml")}/></span></th>
+                            <th>Name<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("name","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("name","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Email<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("email","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("email","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Age<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("age","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("age","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>DOJ<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("doj","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("doj","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Gender<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("gender","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("gender","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Experience<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("totalExperience","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("totalExperience","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
                             <th>Changes</th>
                             <th>Remove</th>
                         </tr>
