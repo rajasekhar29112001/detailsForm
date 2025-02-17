@@ -146,7 +146,7 @@ h2{
 }
 
 .table thead tr{
-    height: 45px;
+    height: 40px;
     background: #F0F8FC;
     
 }
@@ -160,7 +160,7 @@ h2{
 }
 
 .table thead tr th input{
-    width:110px;
+    width:120px;
     border-radius: 4px;
     padding:4px;
     border:1px solid grey;
@@ -168,7 +168,7 @@ h2{
 }
 
 .table tbody tr {
-    height: 40px;
+    height: 35px;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 14px;
 }
@@ -179,6 +179,11 @@ h2{
 
 .table tbody tr:nth-child(odd){
     background-color: #ffffff;
+}
+
+.up_down_Ions{
+    height: 15px;
+    width:10px;
 }
 
 .hr_line {

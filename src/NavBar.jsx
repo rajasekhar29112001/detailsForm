@@ -3,6 +3,9 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const NavBar = () => {
     const [display, setDisplay] = useState("details");
@@ -186,6 +189,7 @@ const NavBar = () => {
 
     const [indexVal, setIndexVal] = useState(null);
     const [bool, setBool] = useState(false);
+    const [sort,setSort] = useState("normal");
 
     const [searchObj, setSearchObj] = useState({ id: "", name: "", email: "", age: "", doj: "", gender: "", totalExperience: "" });
     const [filArr, setFilArr] = useState([
@@ -365,15 +369,10 @@ const NavBar = () => {
     
     );
 
-    console.log("arr",arr)
+    // console.log("arr",arr)
     function addExperience() {
         setObj({ ...obj, experience: [...obj.experience, { company: "", role: "", years: "", stDate: "", enDate: "" }] });
     }
-
-    let namesArr = ['raja','sekhar','venu','gopal','naren','santhu'];
-    console.log("namesArr1 = ",namesArr)
-    namesArr.sort();
-    console.log("namesArr2 = ",namesArr)
 
     function saveData() {
         (!obj.id || !obj.name || !obj.email || !obj.age || !obj.doj || !obj.gender) ? alert("Please enter all fields") : filterDupData();
@@ -452,6 +451,24 @@ const NavBar = () => {
         setObj({ ...data, totalExperience: sum });
     }
 
+    function sorting(val,sortVal){
+        setSort(sortVal);
+        console.log("val = ",val)
+        console.log("sort = ",sort)
+      
+        if(sort === 'ASC'){
+            arr.sort((a,b) => a[val] - b[val]);
+            setFilArr(arr);
+        }
+        if(sort === 'DSC'){
+            arr.sort((a,b) => b[val] - a[val]);
+            setFilArr(arr);
+        }
+        if(sort === "normal"){
+            setFilArr(arr);
+        }
+    }
+
     return (
         <>
 
@@ -517,13 +534,13 @@ const NavBar = () => {
                     <thead>
                         <tr>
                             <th>S.No</th>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Age</th>
-                            <th>Date of Joining</th>
-                            <th>Gender</th>
-                            <th>Total Experience</th>
+                            <th>Id<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("id","ASC")}/><ArrowDownwardIcon onClick={() => sorting("id","DSC")}/><ClearIcon onClick={() => sorting("id","noraml")}/></span></th>
+                            <th>Name<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("name","ASC")}/><ArrowDownwardIcon onClick={() => sorting("name","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Email<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("email","ASC")}/><ArrowDownwardIcon onClick={() => sorting("email","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Age<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("age","ASC")}/><ArrowDownwardIcon onClick={() => sorting("age","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>DOJ<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("doj","ASC")}/><ArrowDownwardIcon onClick={() => sorting("doj","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Gender<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("gender","ASC")}/><ArrowDownwardIcon onClick={() => sorting("gender","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Experience<span className="up_down_Ions"><ArrowUpwardIcon onClick={() => sorting("totalExperience","ASC")}/><ArrowDownwardIcon onClick={() => sorting("totalExperience","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
                             <th>Changes</th>
                             <th>Remove</th>
                         </tr>
