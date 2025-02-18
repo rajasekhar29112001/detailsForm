@@ -160,7 +160,7 @@ h2{
 }
 
 .table thead tr th input{
-    width:120px;
+    width:110px;
     border-radius: 4px;
     padding:4px;
     border:1px solid grey;
@@ -182,8 +182,25 @@ h2{
 }
 
 .up_down_Ions{
-    height: 15px;
-    width:10px;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.up_down_Ions .icon_Up, .up_down_Ions .icon_Down{
+    margin: -5px 0; 
+}
+
+.up_down_Ions .icon_Up:hover, .up_down_Ions .icon_Down:hover{
+    color: red;
+}
+
+.Clear_Icon {
+    cursor: pointer;
+    vertical-align: middle;
+}
+  
+.Clear_Icon:hover {
+    color: #ff0000;
 }
 
 .hr_line {

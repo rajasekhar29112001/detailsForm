@@ -183,13 +183,11 @@ const NavBar = () => {
             ]
         }
     ]
-    
     );
     const [obj, setObj] = useState({ id: "", name: "", email: "", age: "", doj: "", gender: "", totalExperience: 0, experience: [{ company: "", role: "", years: "", stDate: "", enDate: "" }] });
 
     const [indexVal, setIndexVal] = useState(null);
     const [bool, setBool] = useState(false);
-    const [sort,setSort] = useState("normal");
 
     const [searchObj, setSearchObj] = useState({ id: "", name: "", email: "", age: "", doj: "", gender: "", totalExperience: "" });
     const [filArr, setFilArr] = useState([
@@ -369,7 +367,7 @@ const NavBar = () => {
     
     );
 
-    // console.log("arr",arr)
+    console.log("arr",arr)
     function addExperience() {
         setObj({ ...obj, experience: [...obj.experience, { company: "", role: "", years: "", stDate: "", enDate: "" }] });
     }
@@ -452,21 +450,27 @@ const NavBar = () => {
     }
 
     function sorting(val,sortVal){
-        setSort(sortVal);
         console.log("val = ",val)
-        console.log("sort = ",sort)
+        console.log("sortVal = ",sortVal)
+        let sortedArr = [...arr];
       
-        if(sort === 'ASC'){
-            arr.sort((a,b) => a[val] - b[val]);
-            setFilArr(arr);
+        if(sortVal === 'ASC'){
+            sortedArr.sort((a,b) => {
+                if(typeof a[val] === 'number' &&  typeof b[val] === 'number'){
+                    return a[val] - b[val];
+                }
+                return a[val] > b[val] ? 1 : -1;
+            })         
         }
-        if(sort === 'DSC'){
-            arr.sort((a,b) => b[val] - a[val]);
-            setFilArr(arr);
+         if(sortVal === 'DSC'){
+            sortedArr.sort((a,b) =>{
+                if(typeof a[val] === 'number' && typeof b[val] === 'number'){
+                    return b[val] - a[val];
+                }
+                return a[val] < b[val ] ? 1 : -1;
+            })
         }
-        if(sort === "normal"){
-            setFilArr(arr);
-        }
+        setFilArr(sortedArr === 'normal' ? arr : sortedArr);
     }
 
     return (
@@ -490,11 +494,11 @@ const NavBar = () => {
                         <input type="email" value={obj.email} onChange={(e) => setObj({ ...obj, email: e.target.value })} placeholder=" Email" />
                         <input type="number" value={obj.age} onChange={(e) => setObj({ ...obj, age: e.target.value })} placeholder=" Age" required />
                         <input type="text" onFocus={(e) => (e.target.type = "date")} onBlur={(e) => (e.target.type = "text")} value={obj.doj} onChange={(e) => setObj({ ...obj, doj: e.target.value })} placeholder=" Date of Joining" />
-                        {/* <input type="date" onFocus={(e) => (e.target.type = "date")} onBlur={(e) => (e.target.type = "text")} value={obj.doj} onChange={(e) => setObj({ ...obj, doj: e.target.value })} placeholder=" Date of Joining" /> */}
+                        {/* <input type="date" value={obj.doj} onChange={(e) => setObj({ ...obj, doj: e.target.value })} placeholder=" Date of Joining" /> */}
                         <select value={obj.gender} onChange={(e) => setObj({ ...obj, gender: e.target.value })} required>
-                            <option value="" disabled style={{ color: "black" }}>Select Gender</option>
-                            <option style={{ color: "black" }} value="male">Male</option>
-                            <option style={{ color: "black" }} value="female">Female</option>
+                            <option value="" disabled>Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
                         </select>
                     </form>
                 </div>
@@ -534,13 +538,13 @@ const NavBar = () => {
                     <thead>
                         <tr>
                             <th>S.No</th>
-                            <th>Id<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("id","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("id","DSC")}/><ClearIcon onClick={() => sorting("id","noraml")}/></span></th>
-                            <th>Name<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("name","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("name","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>Email<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("email","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("email","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>Age<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("age","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("age","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>DOJ<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("doj","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("doj","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>Gender<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("gender","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("gender","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
-                            <th>Experience<span className="up_down_Ions"><ArrowDropUpSharpIcon onClick={() => sorting("totalExperience","ASC")}/><ArrowDropDownSharpIcon onClick={() => sorting("totalExperience","DSC")}/><ClearIcon onClick={() => sorting("id","normal")}/></span></th>
+                            <th>Id<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("id","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("id","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","noraml")}/></th>
+                            <th>Name<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("name","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("name","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
+                            <th>Email<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("email","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("email","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
+                            <th>Age<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("age","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("age","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
+                            <th>DOJ<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("doj","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("doj","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
+                            <th>Gender<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("gender","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("gender","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
+                            <th>Service<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("totalExperience","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("totalExperience","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
                             <th>Changes</th>
                             <th>Remove</th>
                         </tr>
