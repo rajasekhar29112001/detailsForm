@@ -186,21 +186,16 @@ h2{
     flex-direction: column;
 }
 
-.up_down_Ions .icon_Up, .up_down_Ions .icon_Down{
+.up_down_Ions .icon_style{
     margin: -5px 0; 
 }
 
-.up_down_Ions .icon_Up:hover, .up_down_Ions .icon_Down:hover{
-    color: red;
-}
-
 .Clear_Icon {
-    cursor: pointer;
     vertical-align: middle;
 }
-  
-.Clear_Icon:hover {
-    color: #ff0000;
+
+.icon_color{
+    color:rgb(244, 39, 8);
 }
 
 .hr_line {

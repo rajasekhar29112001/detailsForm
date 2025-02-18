@@ -188,6 +188,8 @@ const NavBar = () => {
 
     const [indexVal, setIndexVal] = useState(null);
     const [bool, setBool] = useState(false);
+    const [exit_icon,setExit_icon] = useState("");
+    const [order,setOrder] = useState("");
 
     const [searchObj, setSearchObj] = useState({ id: "", name: "", email: "", age: "", doj: "", gender: "", totalExperience: "" });
     const [filArr, setFilArr] = useState([
@@ -453,7 +455,9 @@ const NavBar = () => {
         console.log("val = ",val)
         console.log("sortVal = ",sortVal)
         let sortedArr = [...arr];
-      
+        setExit_icon(val);
+        setOrder(sortVal);
+
         if(sortVal === 'ASC'){
             sortedArr.sort((a,b) => {
                 if(typeof a[val] === 'number' &&  typeof b[val] === 'number'){
@@ -470,7 +474,13 @@ const NavBar = () => {
                 return a[val] < b[val ] ? 1 : -1;
             })
         }
-        setFilArr(sortedArr === 'normal' ? arr : sortedArr);
+
+        if(sortVal === 'normal'){
+            sortedArr = arr;
+            setExit_icon('');
+        }
+        
+        setFilArr(sortedArr);
     }
 
     return (
@@ -538,16 +548,16 @@ const NavBar = () => {
                     <thead>
                         <tr>
                             <th>S.No</th>
-                            <th>Id<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("id","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("id","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","noraml")}/></th>
-                            <th>Name<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("name","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("name","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
-                            <th>Email<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("email","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("email","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
-                            <th>Age<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("age","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("age","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
-                            <th>DOJ<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("doj","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("doj","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
-                            <th>Gender<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("gender","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("gender","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
-                            <th>Service<span className="up_down_Ions"><ArrowDropUpSharpIcon className="icon_Up" onClick={() => sorting("totalExperience","ASC")}/><ArrowDropDownSharpIcon className="icon_Down" onClick={() => sorting("totalExperience","DSC")}/></span><ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/></th>
+                            <th>Id<span className="up_down_Ions"><ArrowDropUpSharpIcon className={exit_icon === 'id' && order === 'ASC' ? 'icon_color icon_style' : 'icon_style'} onClick={() => sorting("id","ASC")}/><ArrowDropDownSharpIcon className={exit_icon === 'id' && order === 'DSC' ? 'icon_color icon_style' : 'icon_style'}  onClick={() => sorting("id","DSC")}/></span>{exit_icon === "id" ?<ClearIcon className="Clear_Icon" onClick={() => sorting("id","normal")}/>:null}</th>
+                            <th>Name<span className="up_down_Ions"><ArrowDropUpSharpIcon className={exit_icon === 'name' && order === 'ASC' ? 'icon_color icon_style' : 'icon_style'}  onClick={() => sorting("name","ASC")}/><ArrowDropDownSharpIcon className={exit_icon === 'name' && order === 'DSC' ? 'icon_color icon_style' : 'icon_style'} onClick={() => sorting("name","DSC")}/></span>{exit_icon === "name" ? <ClearIcon className="Clear_Icon" onClick={() => sorting("name","normal")}/> : null}</th>
+                            <th>Email<span className="up_down_Ions"><ArrowDropUpSharpIcon className={exit_icon === 'email' && order === 'ASC' ? 'icon_color icon_style' : 'icon_style'}  onClick={() => sorting("email","ASC")}/><ArrowDropDownSharpIcon className={exit_icon === 'email' && order === 'DSC' ? 'icon_color icon_style' : 'icon_style'} onClick={() => sorting("email","DSC")}/></span>{exit_icon === "email" ? <ClearIcon className="Clear_Icon" onClick={() => sorting("email","normal")}/> : null}</th>
+                            <th>Age<span className="up_down_Ions"><ArrowDropUpSharpIcon className={exit_icon === 'age' && order === 'ASC' ? 'icon_color icon_style' : 'icon_style'}  onClick={() => sorting("age","ASC")}/><ArrowDropDownSharpIcon className={exit_icon === 'age' && order === 'DSC' ? 'icon_color icon_style' : 'icon_style'} onClick={() => sorting("age","DSC")}/></span>{exit_icon === "age" ? <ClearIcon className="Clear_Icon" onClick={() => sorting("age","normal")}/> : null} </th>
+                            <th>DOJ<span className="up_down_Ions"><ArrowDropUpSharpIcon className={exit_icon === 'doj' && order === 'ASC' ? 'icon_color icon_style' : 'icon_style'}  onClick={() => sorting("doj","ASC")}/><ArrowDropDownSharpIcon className={exit_icon === 'doj' && order === 'DSC' ? 'icon_color icon_style' : 'icon_style'} onClick={() => sorting("doj","DSC")}/></span>{exit_icon === "doj" ? <ClearIcon className="Clear_Icon" onClick={() => sorting("doj","normal")}/> : null}</th>
+                            <th>Gender<span className="up_down_Ions"><ArrowDropUpSharpIcon className={exit_icon === 'gender' && order === 'ASC' ? 'icon_color icon_style' : 'icon_style'}  onClick={() => sorting("gender","ASC")}/><ArrowDropDownSharpIcon className={exit_icon === 'gender' && order === 'DSC' ? 'icon_color icon_style' : 'icon_style'} onClick={() => sorting("gender","DSC")}/></span>{exit_icon === "gender" ? <ClearIcon className="Clear_Icon" onClick={() => sorting("gender","normal")}/> : null}</th>
+                            <th>Service<span className="up_down_Ions"><ArrowDropUpSharpIcon className={exit_icon === 'totalExperience' && order === 'ASC' ? 'icon_color icon_style' : 'icon_style'}  onClick={() => sorting("totalExperience","ASC")}/><ArrowDropDownSharpIcon className={exit_icon === 'totalExperience' && order === 'DSC' ? 'icon_color icon_style' : 'icon_style'} onClick={() => sorting("totalExperience","DSC")}/></span>{exit_icon === "totalExperience" ? <ClearIcon className="Clear_Icon" onClick={() => sorting("totalExperience","normal")}/> : null}</th>
                             <th>Changes</th>
                             <th>Remove</th>
-                        </tr>
+                        </tr>                                    
                         <tr>
                             <th><AccountCircleIcon /></th>
                             <th><input value={searchObj.id} onChange={(e) => searching("id", e)} /></th>
